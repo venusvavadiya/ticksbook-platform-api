@@ -1,10 +1,12 @@
 import { Aggregate } from '@pl-oss/core';
-import { OrderBookArchived } from '../event/order-book-archived';
-import { OrderBookCreated } from '../event/order-book-created';
-import { OrderBookRenamed } from '../event/order-book-renamed';
-import { OrderBookUnarchived } from '../event/order-book-unarchived';
-import { OrderBookAlreadyArchivedException } from '../exception/order-book-already-archived-exception';
-import { OrderBookNotArchivedException } from '../exception/order-book-not-archived-exception';
+import {
+  OrderBookArchived,
+  OrderBookAlreadyArchivedException,
+  OrderBookCreated,
+  OrderBookRenamed,
+  OrderBookUnarchived,
+  OrderBookNotArchivedException,
+} from 'src/platform-type';
 
 export class OrderBookAggregate extends Aggregate {
   readonly streamNamePrefix = 'TB-OrderBookAggregate';
