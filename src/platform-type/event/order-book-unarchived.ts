@@ -6,6 +6,7 @@ export class OrderBookUnarchived implements Event {
 
   constructor(
     readonly orderBookId: string,
+
     readonly by: string,
     readonly timestamp = new Date().toISOString(),
     readonly id = uuid(),
