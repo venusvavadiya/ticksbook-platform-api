@@ -6,7 +6,7 @@ import {
   OrderBookRenamed,
   OrderBookUnarchived,
   OrderBookNotArchivedException,
-} from 'src/platform-type';
+} from '../../platform-type';
 
 export class OrderBookAggregate extends Aggregate {
   readonly streamNamePrefix = 'TB-OrderBookAggregate';

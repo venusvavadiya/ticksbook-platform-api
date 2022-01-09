@@ -6,7 +6,7 @@ import {
   OrderBookRenamed,
   OrderBookUnarchived,
   OrderBookNotArchivedException,
-} from 'src/platform-type';
+} from '../../platform-type';
 import { OrderBookAggregate } from './order-book-aggregate';
 
 jest.mock('uuid', () => ({ v4: () => 'uuid' }));
