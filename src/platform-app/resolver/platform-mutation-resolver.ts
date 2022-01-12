@@ -3,7 +3,7 @@ import { Args, Mutation } from '@nestjs/graphql';
 import { GraphQLBaseConstant } from '@pl-oss/adapter';
 import { PlatformService } from '../../platform-domain';
 
-export class MutationResolver {
+export class PlatformMutationResolver {
   constructor(@Inject('PlatformService') private readonly platformService: PlatformService) {}
 
   @Mutation(GraphQLBaseConstant.RETURN_STRING)
