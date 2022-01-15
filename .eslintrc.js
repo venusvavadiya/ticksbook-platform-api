@@ -17,8 +17,16 @@ module.exports = {
   },
   ignorePatterns: ['.eslintrc.js'],
   rules: {
+    '@typescript-eslint/lines-between-class-members': ['error', 'always', {
+      'exceptAfterSingleLine': true,
+    }],
     'import/no-extraneous-dependencies': 'off',
     'import/prefer-default-export': 'off',
     'linebreak-style': 'off',
+    'class-methods-use-this': ['error', {
+      'exceptMethods': [
+        'getStreamNamePrefixes',
+      ]},
+    ],
   },
 };
