@@ -1,9 +1,19 @@
 import { EventStoreDBClient } from '@eventstore/db-client';
 import { NestFactory } from '@nestjs/core';
-import { EventStoreDBEventStore } from '@pl-oss/adapter';
+import {
+  EventStoreDBEventStore,
+  EventStoreDBEventSubscription,
+  InMemoryEntityRepository,
+} from '@pl-oss/adapter';
+import { Environment as BaseEnvironment } from '@pl-oss/core';
+import { PubSub } from 'graphql-subscriptions';
 import { AppModule } from './app.module';
+import {
+  PlatformContext,
+  OrderBookEventListener,
+} from './platform-app';
 
-interface Environment {
+interface Environment extends BaseEnvironment {
   eventStoreDBUrl: string;
   port: number;
 }
@@ -15,12 +25,32 @@ function getEnvironment(): Environment {
   };
 }
 
-async function bootstrap(environment: Environment) {
+function getContext(environment: Environment): PlatformContext {
   const eventStoreDBClient = EventStoreDBClient.connectionString(environment.eventStoreDBUrl);
-  const eventStore = new EventStoreDBEventStore(eventStoreDBClient);
 
-  const app = await NestFactory.create(AppModule.register(eventStore));
-  await app.listen(environment.port);
+  return {
+    environment,
+    eventSubscription: new EventStoreDBEventSubscription(eventStoreDBClient, 'start'),
+    eventStore: new EventStoreDBEventStore(eventStoreDBClient),
+    graphQLService: new PubSub(),
+    orderBookEntityRepository: new InMemoryEntityRepository(),
+  };
+}
+
+function setEventListeners(context: PlatformContext) {
+  context.eventSubscription.register(new OrderBookEventListener(context));
+}
+
+async function startApp(context: PlatformContext): Promise<void> {
+  const app = await NestFactory.create(AppModule.register(context));
+  app.enableCors();
+  await app.listen(context.environment.port as number);
+}
+
+async function bootstrap(environment: Environment) {
+  const context = getContext(environment);
+  setEventListeners(context);
+  await startApp(context);
 }
 
 bootstrap(getEnvironment());

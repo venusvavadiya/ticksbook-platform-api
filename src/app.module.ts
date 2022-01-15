@@ -1,17 +1,26 @@
-import { DynamicModule } from '@nestjs/common';
+import { DynamicModule, Provider } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
-import { EventStore } from '@pl-oss/core';
+import {
+  PlatformContext,
+  PlatformMutationResolver,
+  PlatformQueryResolver,
+} from './platform-app';
 import { PlatformService } from './platform-domain';
-import { PlatformMutationResolver } from './platform-app/resolver/platform-mutation-resolver';
-import { PlatformQueryResolver } from './platform-app/resolver/platform-query-resolver';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 export class AppModule {
-  static register(eventStore: EventStore): DynamicModule {
-    const controllers = [AppController];
+  static register(context: PlatformContext): DynamicModule {
+    return {
+      controllers: [AppController],
+      imports: AppModule.getImports(),
+      module: AppModule,
+      providers: AppModule.getProviders(context),
+    };
+  }
 
-    const imports = [
+  private static getImports(): DynamicModule[] {
+    return [
       GraphQLModule.forRoot({
         autoSchemaFile: true,
         installSubscriptionHandlers: true,
@@ -19,21 +28,16 @@ export class AppModule {
         playground: true,
       }),
     ];
+  }
 
-    const platformService = new PlatformService(eventStore);
+  private static getProviders(context: PlatformContext): Provider[] {
+    const platformService = new PlatformService(context.eventStore);
 
-    const providers = [
+    return [
       { provide: 'PlatformService', useValue: platformService },
       AppService,
       PlatformMutationResolver,
       PlatformQueryResolver,
     ];
-
-    return {
-      controllers,
-      imports,
-      module: AppModule,
-      providers,
-    };
   }
 }

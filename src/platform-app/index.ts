@@ -1,4 +1,6 @@
+export * from './context/platform-context';
 export * from './entity/order-book-entity';
 export * from './entity-repository/order-book-entity-repository';
+export * from './event-listener/order-book-event-listener';
 export * from './resolver/platform-mutation-resolver';
 export * from './resolver/platform-query-resolver';

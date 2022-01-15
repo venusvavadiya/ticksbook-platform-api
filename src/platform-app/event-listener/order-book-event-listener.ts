@@ -5,7 +5,7 @@ import {
   OrderBookRenamed,
   OrderBookUnarchived,
 } from '../../platform-type';
-import { OrderContext } from '../context/order-context';
+import { PlatformContext } from '../context/platform-context';
 import { OrderBookEntity } from '../entity/order-book-entity';
 import { OrderBookEntityRepository } from '../entity-repository/order-book-entity-repository';
 
@@ -13,7 +13,7 @@ export class OrderBookEventListener extends EventListener {
   private readonly orderBookRepository: OrderBookEntityRepository;
   private readonly graphQLService: GraphQLService;
 
-  constructor(private readonly context: OrderContext) {
+  constructor(private readonly context: PlatformContext) {
     super();
     this.orderBookRepository = context.orderBookEntityRepository;
     this.graphQLService = context.graphQLService;
