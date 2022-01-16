@@ -23,6 +23,7 @@ export class AppModule {
     return [
       GraphQLModule.forRoot({
         autoSchemaFile: true,
+        cors: true,
         installSubscriptionHandlers: true,
         introspection: true,
         playground: true,
