@@ -34,6 +34,7 @@ export class AppModule {
     const platformService = new PlatformService(context.eventStore);
 
     return [
+      { provide: 'Context', useValue: context },
       { provide: 'PlatformService', useValue: platformService },
       AppService,
       PlatformMutationResolver,
