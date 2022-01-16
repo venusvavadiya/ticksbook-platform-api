@@ -37,12 +37,6 @@ function setEventListeners(context: PlatformContext) {
   context.eventSubscription.register(new OrderBookEventListener(context));
 }
 
-async function startApp(context: PlatformContext): Promise<void> {
-  const app = await NestFactory.create(AppModule.register(context));
-  app.enableCors();
-  await app.listen(context.environment.port as number);
-}
-
 async function bootstrap() {
   const environment = {
     eventStoreDBUrl: process.env.EVENT_STORE_DB_URL,
@@ -51,7 +45,9 @@ async function bootstrap() {
 
   const context = getContext(environment);
   setEventListeners(context);
-  await startApp(context);
+
+  const app = await NestFactory.create(AppModule.register(context), { cors: true });
+  await app.listen(context.environment.port as number);
 }
 
 bootstrap();
