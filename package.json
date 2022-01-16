@@ -26,6 +26,7 @@
     "@pl-oss/adapter": "^0.0.91",
     "@pl-oss/core": "^0.0.91",
     "apollo-server-express": "^3.6.1",
+    "dotenv": "^12.0.3",
     "express": "^4.17.2",
     "graphql": "^15",
     "graphql-subscriptions": "^2.0.0",

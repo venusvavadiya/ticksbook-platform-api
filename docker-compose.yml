@@ -19,32 +19,6 @@ services:
         source: eventstore-volume-logs
         target: /var/log/eventstore
 
-  mongo.db:
-    image: mongo
-    container_name: ticksbook-platform-api.mongo-db
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=root
-    ports:
-      - 27017:27017
-    volumes:
-      - type: volume
-        source: mongo-volume-data
-        target: /var/lib/mongo
-
-  mongo-express:
-    image: mongo-express
-    depends_on:
-      - ticksbook-platform-api.mongo-db
-    environment:
-      - ME_CONFIG_MONGODB_SERVER=ticksbook-platform-api.mongo-db
-      - ME_CONFIG_MONGODB_ADMINUSERNAME=root
-      - ME_CONFIG_MONGODB_ADMINPASSWORD=root
-    ports:
-      - 8081:8081
-    restart: unless-stopped
-
 volumes:
   eventstore-volume-data:
   eventstore-volume-logs:
-  mongo-volume-data:

@@ -6,6 +6,7 @@ import {
   InMemoryEntityRepository,
 } from '@pl-oss/adapter';
 import { Environment as BaseEnvironment } from '@pl-oss/core';
+import * as dotenv from 'dotenv';
 import { PubSub } from 'graphql-subscriptions';
 import { AppModule } from './app.module';
 import {
@@ -13,16 +14,11 @@ import {
   OrderBookEventListener,
 } from './platform-app';
 
+dotenv.config();
+
 interface Environment extends BaseEnvironment {
   eventStoreDBUrl: string;
   port: number;
-}
-
-function getEnvironment(): Environment {
-  return {
-    eventStoreDBUrl: process.env.EVENT_STORE_DB_URL ?? 'esdb://localhost:2113?tls=false',
-    port: process.env.PORT ? parseInt(process.env.PORT, 10) : 8000,
-  };
 }
 
 function getContext(environment: Environment): PlatformContext {
@@ -47,10 +43,15 @@ async function startApp(context: PlatformContext): Promise<void> {
   await app.listen(context.environment.port as number);
 }
 
-async function bootstrap(environment: Environment) {
+async function bootstrap() {
+  const environment = {
+    eventStoreDBUrl: process.env.EVENT_STORE_DB_URL,
+    port: parseInt(process.env.PORT, 10),
+  };
+
   const context = getContext(environment);
   setEventListeners(context);
   await startApp(context);
 }
 
-bootstrap(getEnvironment());
+bootstrap();
