@@ -8,8 +8,8 @@ export class OrderCreated implements Event {
     readonly orderBookId: string,
     readonly orderId: string,
     readonly tickerId: string,
-    readonly price: number,
-    readonly quantity: number,
+    readonly orderPrice: number,
+    readonly orderQuantity: number,
 
     readonly by: string,
     readonly timestamp = new Date().toISOString(),
