@@ -29,7 +29,7 @@ describe('aggregate', () => {
       expect(aggregate).toStrictEqual(result);
       expect(aggregate.uncommittedEvents).toContainEqual(new OrderCreated(
         'orderBookId',
-        'id',
+        aggregate.id,
         'tickerId',
         1,
         2,
