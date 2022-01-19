@@ -24,13 +24,13 @@ describe('aggregate', () => {
 
   describe('create', () => {
     it('should raise new OrderCreated', () => {
-      const result = aggregate.create('orderBookId', 'ticker', 1, 2, SYSTEM);
+      const result = aggregate.create('orderBookId', 'tickerId', 1, 2, SYSTEM);
 
       expect(aggregate).toStrictEqual(result);
       expect(aggregate.uncommittedEvents).toContainEqual(new OrderCreated(
         'orderBookId',
         'id',
-        'ticker',
+        'tickerId',
         1,
         2,
         SYSTEM,

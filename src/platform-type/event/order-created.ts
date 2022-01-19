@@ -7,7 +7,7 @@ export class OrderCreated implements Event {
   constructor(
     readonly orderBookId: string,
     readonly orderId: string,
-    readonly ticker: string,
+    readonly tickerId: string,
     readonly price: number,
     readonly quantity: number,
 
