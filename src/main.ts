@@ -12,6 +12,7 @@ import { AppModule } from './app.module';
 import {
   PlatformContext,
   OrderBookEventListener,
+  OrderEventListener,
 } from './platform-app';
 
 dotenv.config();
@@ -30,11 +31,13 @@ function getContext(environment: Environment): PlatformContext {
     eventStore: new EventStoreDBEventStore(eventStoreDBClient),
     graphQLService: new PubSub(),
     orderBookEntityRepository: new InMemoryEntityRepository(),
+    orderEntityRepository: new InMemoryEntityRepository(),
   };
 }
 
 function setEventListeners(context: PlatformContext) {
   context.eventSubscription.register(new OrderBookEventListener(context));
+  context.eventSubscription.register(new OrderEventListener(context));
 }
 
 async function bootstrap() {

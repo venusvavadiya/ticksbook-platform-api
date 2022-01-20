@@ -3,22 +3,23 @@ import { Args, Query } from '@nestjs/graphql';
 import { GraphQLConstant } from '../constant/graphql-constant';
 import { PlatformContext } from '../context/platform-context';
 import { OrderBookEntity } from '../entity/order-book-entity';
-import { OrderBookEntityRepository } from '../entity-repository/order-book-entity-repository';
+import { OrderEntity } from '../entity/order-entity';
 
 export class PlatformQueryResolver {
-  private readonly orderBookEntityRepository: OrderBookEntityRepository;
-
-  constructor(@Inject('Context') context: PlatformContext) {
-    this.orderBookEntityRepository = context.orderBookEntityRepository;
-  }
+  constructor(@Inject('Context') private readonly context: PlatformContext) {}
 
   @Query(GraphQLConstant.RETURN_ORDER_BOOK_ENTITY)
   async orderBook(@Args('id') id: string): Promise<OrderBookEntity> {
-    return this.orderBookEntityRepository.getById(id);
+    return this.context.orderBookEntityRepository.getById(id);
   }
 
   @Query(GraphQLConstant.RETURN_ORDER_BOOK_ENTITIES)
   async orderBooks(): Promise<OrderBookEntity[]> {
-    return this.orderBookEntityRepository.getAll();
+    return this.context.orderBookEntityRepository.getAll();
+  }
+
+  @Query(GraphQLConstant.RETURN_ORDER_ENTITY)
+  async order(@Args('id') id: string): Promise<OrderEntity> {
+    return this.context.orderEntityRepository.getById(id);
   }
 }
