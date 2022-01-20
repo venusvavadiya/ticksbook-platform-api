@@ -1,5 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Entity } from '@pl-oss/core';
+import { OrderEntity } from './order-entity';
 
 @ObjectType()
 export class OrderBookEntity implements Entity {
@@ -12,6 +13,9 @@ export class OrderBookEntity implements Entity {
   @Field()
     name: string;
 
+  @Field(() => [OrderEntity])
+    orders: OrderEntity[];
+
   constructor(
     id: string,
     name: string,
@@ -20,5 +24,6 @@ export class OrderBookEntity implements Entity {
     this.id = id;
     this.name = name;
     this.isArchived = isArchived;
+    this.orders = [];
   }
 }

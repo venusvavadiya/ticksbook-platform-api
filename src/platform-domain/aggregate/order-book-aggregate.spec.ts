@@ -47,7 +47,7 @@ describe('aggregate', () => {
 
       expect(aggregate).toStrictEqual(result);
       expect(aggregate.uncommittedEvents)
-        .toContainEqual(new OrderBookArchived('id', SYSTEM));
+        .toContainEqual(new OrderBookArchived(aggregate.id, SYSTEM));
     });
 
     it('should throw new OrderBookAlreadyArchivedException if archived', () => {
@@ -66,7 +66,7 @@ describe('aggregate', () => {
 
       expect(aggregate).toStrictEqual(result);
       expect(aggregate.uncommittedEvents)
-        .toContainEqual(new OrderBookCreated('id', 'name', SYSTEM));
+        .toContainEqual(new OrderBookCreated(aggregate.id, 'name', SYSTEM));
     });
   });
 
@@ -78,7 +78,7 @@ describe('aggregate', () => {
 
       expect(aggregate).toStrictEqual(result);
       expect(aggregate.uncommittedEvents)
-        .toContainEqual(new OrderBookRenamed('id', 'newName', SYSTEM));
+        .toContainEqual(new OrderBookRenamed(aggregate.id, 'newName', SYSTEM));
     });
   });
 
@@ -91,7 +91,7 @@ describe('aggregate', () => {
 
       expect(aggregate).toStrictEqual(result);
       expect(aggregate.uncommittedEvents)
-        .toContainEqual(new OrderBookUnarchived('id', SYSTEM));
+        .toContainEqual(new OrderBookUnarchived(aggregate.id, SYSTEM));
     });
 
     it('should throw new OrderBookNotArchivedException if unarchived', () => {
