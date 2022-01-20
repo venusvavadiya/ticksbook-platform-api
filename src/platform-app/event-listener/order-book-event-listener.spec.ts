@@ -12,16 +12,13 @@ import { OrderBookEventListener } from './order-book-event-listener';
 
 describe('OrderBookEventListener', () => {
   let graphQLService: GraphQLService;
-  let orderBookRepository: OrderBookEntityRepository;
+  let orderBookEntityRepository: OrderBookEntityRepository;
   let listener: OrderBookEventListener;
 
   beforeEach(() => {
     graphQLService = mock<GraphQLService>();
-    orderBookRepository = mock<OrderBookEntityRepository>();
-    listener = new OrderBookEventListener({
-      graphQLService,
-      orderBookEntityRepository: orderBookRepository,
-    });
+    orderBookEntityRepository = mock<OrderBookEntityRepository>();
+    listener = new OrderBookEventListener({ graphQLService, orderBookEntityRepository });
 
     jest.spyOn(graphQLService, 'publish').mockResolvedValue();
   });
@@ -37,20 +34,20 @@ describe('OrderBookEventListener', () => {
   describe('onOrderBookArchived', () => {
     it('should handle OrderBookArchived', async () => {
       const orderBook = new OrderBookEntity('id', 'name');
-      jest.spyOn(orderBookRepository, 'getById').mockResolvedValue(orderBook);
+      jest.spyOn(orderBookEntityRepository, 'getById').mockResolvedValue(orderBook);
 
       await listener.on(new OrderBookArchived('id', 'by'));
 
-      expect(orderBookRepository.getById).toHaveBeenCalledTimes(1);
-      expect(orderBookRepository.getById).toHaveBeenNthCalledWith(1, 'id');
+      expect(orderBookEntityRepository.getById).toHaveBeenCalledTimes(1);
+      expect(orderBookEntityRepository.getById).toHaveBeenNthCalledWith(1, 'id');
 
       expect(orderBook.isArchived).toStrictEqual(true);
 
       expect(graphQLService.publish).toHaveBeenCalledTimes(1);
       expect(graphQLService.publish).toHaveBeenNthCalledWith(1, 'OrderBookUpdated', { OrderBookUpdated: orderBook });
 
-      expect(orderBookRepository.save).toHaveBeenCalledTimes(1);
-      expect(orderBookRepository.save).toHaveBeenNthCalledWith(1, orderBook);
+      expect(orderBookEntityRepository.save).toHaveBeenCalledTimes(1);
+      expect(orderBookEntityRepository.save).toHaveBeenNthCalledWith(1, orderBook);
     });
   });
 
@@ -62,48 +59,48 @@ describe('OrderBookEventListener', () => {
       expect(graphQLService.publish).toHaveBeenCalledTimes(1);
       expect(graphQLService.publish).toHaveBeenNthCalledWith(1, 'OrderBookCreated', { OrderBookCreated: orderBook });
 
-      expect(orderBookRepository.save).toHaveBeenCalledTimes(1);
-      expect(orderBookRepository.save).toHaveBeenNthCalledWith(1, new OrderBookEntity('id', 'name'));
+      expect(orderBookEntityRepository.save).toHaveBeenCalledTimes(1);
+      expect(orderBookEntityRepository.save).toHaveBeenNthCalledWith(1, orderBook);
     });
   });
 
   describe('onOrderBookRenamed', () => {
     it('should handle OrderBookRenamed', async () => {
       const orderBook = new OrderBookEntity('id', 'name');
-      jest.spyOn(orderBookRepository, 'getById').mockResolvedValue(orderBook);
+      jest.spyOn(orderBookEntityRepository, 'getById').mockResolvedValue(orderBook);
 
       await listener.on(new OrderBookRenamed('id', 'newName', 'by'));
 
-      expect(orderBookRepository.getById).toHaveBeenCalledTimes(1);
-      expect(orderBookRepository.getById).toHaveBeenNthCalledWith(1, 'id');
+      expect(orderBookEntityRepository.getById).toHaveBeenCalledTimes(1);
+      expect(orderBookEntityRepository.getById).toHaveBeenNthCalledWith(1, 'id');
 
       expect(orderBook.name).toStrictEqual('newName');
 
       expect(graphQLService.publish).toHaveBeenCalledTimes(1);
       expect(graphQLService.publish).toHaveBeenNthCalledWith(1, 'OrderBookUpdated', { OrderBookUpdated: orderBook });
 
-      expect(orderBookRepository.save).toHaveBeenCalledTimes(1);
-      expect(orderBookRepository.save).toHaveBeenNthCalledWith(1, orderBook);
+      expect(orderBookEntityRepository.save).toHaveBeenCalledTimes(1);
+      expect(orderBookEntityRepository.save).toHaveBeenNthCalledWith(1, orderBook);
     });
   });
 
   describe('onOrderBookUnarchived', () => {
     it('should handle OrderBookUnarchived', async () => {
       const orderBook = new OrderBookEntity('id', 'name', true);
-      jest.spyOn(orderBookRepository, 'getById').mockResolvedValue(orderBook);
+      jest.spyOn(orderBookEntityRepository, 'getById').mockResolvedValue(orderBook);
 
       await listener.on(new OrderBookUnarchived('id', 'by'));
 
-      expect(orderBookRepository.getById).toHaveBeenCalledTimes(1);
-      expect(orderBookRepository.getById).toHaveBeenNthCalledWith(1, 'id');
+      expect(orderBookEntityRepository.getById).toHaveBeenCalledTimes(1);
+      expect(orderBookEntityRepository.getById).toHaveBeenNthCalledWith(1, 'id');
 
       expect(orderBook.isArchived).toStrictEqual(false);
 
       expect(graphQLService.publish).toHaveBeenCalledTimes(1);
       expect(graphQLService.publish).toHaveBeenNthCalledWith(1, 'OrderBookUpdated', { OrderBookUpdated: orderBook });
 
-      expect(orderBookRepository.save).toHaveBeenCalledTimes(1);
-      expect(orderBookRepository.save).toHaveBeenNthCalledWith(1, orderBook);
+      expect(orderBookEntityRepository.save).toHaveBeenCalledTimes(1);
+      expect(orderBookEntityRepository.save).toHaveBeenNthCalledWith(1, orderBook);
     });
   });
 });
