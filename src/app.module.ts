@@ -1,6 +1,7 @@
 import { DynamicModule, Provider } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import {
+  OrderBookResolver,
   PlatformContext,
   PlatformMutationResolver,
   PlatformQueryResolver,
@@ -38,6 +39,7 @@ export class AppModule {
       { provide: 'Context', useValue: context },
       { provide: 'PlatformService', useValue: platformService },
       AppService,
+      OrderBookResolver,
       PlatformMutationResolver,
       PlatformQueryResolver,
     ];
