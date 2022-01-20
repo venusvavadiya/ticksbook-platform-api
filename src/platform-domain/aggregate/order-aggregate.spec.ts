@@ -24,7 +24,7 @@ describe('aggregate', () => {
 
   describe('create', () => {
     it('should raise new OrderCreated', () => {
-      const result = aggregate.create('orderBookId', 'tickerId', 1, 2, SYSTEM);
+      const result = aggregate.create('orderBookId', 'tickerId', 1, 1, SYSTEM);
 
       expect(aggregate).toStrictEqual(result);
       expect(aggregate.uncommittedEvents).toContainEqual(new OrderCreated(
@@ -32,7 +32,7 @@ describe('aggregate', () => {
         aggregate.id,
         'tickerId',
         1,
-        2,
+        1,
         SYSTEM,
       ));
     });

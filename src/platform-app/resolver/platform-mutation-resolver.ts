@@ -19,15 +19,15 @@ export class PlatformMutationResolver {
   async createOrder(
     @Args('orderBookId') orderBookId: string,
       @Args('tickerId') tickerId: string,
-      @Args('orderPrice', { type: GraphQLConstant.RETURN_FLOAT }) orderPrice: number,
       @Args('orderQuantity', { type: GraphQLConstant.RETURN_INT }) orderQuantity: number,
+      @Args('unitPrice', { type: GraphQLConstant.RETURN_FLOAT }) unitPrice: number,
   ): Promise<string> {
     const by = 'BY';
     const orderId = await this.platformService.createOrder(
       orderBookId,
       tickerId,
-      orderPrice,
       orderQuantity,
+      unitPrice,
       by,
     );
     return orderId;

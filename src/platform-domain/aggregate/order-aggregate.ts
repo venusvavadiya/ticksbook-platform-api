@@ -7,16 +7,16 @@ export class OrderAggregate extends Aggregate {
   create(
     orderBookId: string,
     tickerId: string,
-    price: number,
-    quantity: number,
+    orderQuantity: number,
+    unitPrice: number,
     by: string,
   ): this {
     this.raiseEvent(new OrderCreated(
       orderBookId,
       this.id,
       tickerId,
-      price,
-      quantity,
+      orderQuantity,
+      unitPrice,
       by,
     ));
     return this;

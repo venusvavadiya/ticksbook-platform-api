@@ -16,13 +16,13 @@ export class PlatformService {
   async createOrder(
     orderBookId: string,
     tickerId: string,
-    price: number,
-    quantity: number,
+    orderQuantity: number,
+    unitPrice: number,
     by: string,
   ): Promise<string> {
     const id = uuidv4();
     await new OrderAggregate(id)
-      .create(orderBookId, tickerId, price, quantity, by)
+      .create(orderBookId, tickerId, orderQuantity, unitPrice, by)
       .commit(this.eventStore);
     return id;
   }
