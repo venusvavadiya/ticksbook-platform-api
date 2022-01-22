@@ -19,6 +19,7 @@ export class OrderAggregate extends Aggregate {
       unitPrice,
       by,
     ));
+
     return this;
   }
 }
