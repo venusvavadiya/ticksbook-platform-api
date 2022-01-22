@@ -32,10 +32,10 @@ describe('OrderEventListener', () => {
       await listener.on(new OrderCreated('orderBookId', 'orderId', 'tickerId', 1, 1, 'by'));
 
       expect(graphQLService.publish).toHaveBeenCalledTimes(1);
-      expect(graphQLService.publish).toHaveBeenCalledWith(1, 'OrderCreated', { OrderCreated: order });
+      expect(graphQLService.publish).toHaveBeenNthCalledWith(1, 'OrderCreated', { OrderCreated: order });
 
       expect(orderEntityRepository.save).toHaveBeenCalledTimes(1);
-      expect(orderEntityRepository.save).toHaveBeenCalledWith(1, order);
+      expect(orderEntityRepository.save).toHaveBeenNthCalledWith(1, order);
     });
   });
 });
