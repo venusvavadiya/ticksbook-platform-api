@@ -13,7 +13,7 @@ export class OrderBookEntity implements Entity {
   @Field()
     name: string;
 
-  @Field(() => [OrderEntity], { nullable: true })
+  @Field(() => [OrderEntity], { nullable: 'items' })
     orders: OrderEntity[];
 
   constructor(
