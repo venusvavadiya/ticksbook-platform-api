@@ -1,5 +1,9 @@
 import { SYSTEM } from '@pl-oss/core';
-import { OrderCreated } from '../../platform-type';
+import {
+  OrderCreated,
+  OrderQuantityNotIntegerException,
+  OrderUnitPriceNotIntegerException,
+} from '../../platform-type';
 import { OrderAggregate } from './order-aggregate';
 
 jest.mock('uuid', () => ({ v4: () => 'uuid' }));
@@ -27,14 +31,18 @@ describe('aggregate', () => {
       const result = aggregate.create('orderBookId', 'tickerId', 1, 1, SYSTEM);
 
       expect(aggregate).toStrictEqual(result);
-      expect(aggregate.uncommittedEvents).toContainEqual(new OrderCreated(
-        'orderBookId',
-        aggregate.id,
-        'tickerId',
-        1,
-        1,
-        SYSTEM,
-      ));
+      expect(aggregate.uncommittedEvents)
+        .toContainEqual(new OrderCreated('orderBookId', aggregate.id, 'tickerId', 1, 1, SYSTEM));
+    });
+
+    it('should throw new OrderQuantityNotIntegerException if quantity is not an integer', () => {
+      expect(aggregate.create.bind(aggregate, 'orderBookId', 'tickerId', 1.5, 1, SYSTEM))
+        .toThrowError(new OrderQuantityNotIntegerException(aggregate.id, 1.5));
+    });
+
+    it('should throw new OrderUnitPriceNotIntegerException if unitPrice is not an integer', () => {
+      expect(aggregate.create.bind(aggregate, 'orderBookId', 'tickerId', 1, 1.5, SYSTEM))
+        .toThrowError(new OrderUnitPriceNotIntegerException(aggregate.id, 1.5));
     });
   });
 });
