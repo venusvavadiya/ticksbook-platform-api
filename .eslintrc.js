@@ -15,18 +15,21 @@ module.exports = {
     node: true,
     jest: true,
   },
-  ignorePatterns: ['.eslintrc.js'],
+  ignorePatterns: [
+    '.eslintrc.js',
+    'dist',
+    'node_modules',
+  ],
   rules: {
     '@typescript-eslint/lines-between-class-members': ['error', 'always', {
       'exceptAfterSingleLine': true,
     }],
+    'class-methods-use-this': ['error', { 'exceptMethods': [
+      'getStreamNamePrefixes',
+    ]}],
     'import/no-extraneous-dependencies': 'off',
     'import/prefer-default-export': 'off',
     'linebreak-style': 'off',
-    'class-methods-use-this': ['error', {
-      'exceptMethods': [
-        'getStreamNamePrefixes',
-      ]},
-    ],
+    'max-len': 'off',
   },
 };

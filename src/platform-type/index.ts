@@ -5,3 +5,5 @@ export * from './event/order-book-unarchived';
 export * from './event/order-created';
 export * from './exception/order-book-already-archived-exception';
 export * from './exception/order-book-not-archived-exception';
+export * from './exception/order-quantity-not-integer-exception';
+export * from './exception/order-unit-price-not-integer-exception';
