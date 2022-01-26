@@ -7,13 +7,10 @@ import {
   PlatformQueryResolver,
 } from './platform-app';
 import { PlatformService } from './platform-domain';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 
 export class AppModule {
   static register(context: PlatformContext): DynamicModule {
     return {
-      controllers: [AppController],
       imports: AppModule.getImports(),
       module: AppModule,
       providers: AppModule.getProviders(context),
@@ -38,7 +35,6 @@ export class AppModule {
     return [
       { provide: 'Context', useValue: context },
       { provide: 'PlatformService', useValue: platformService },
-      AppService,
       OrderBookResolver,
       PlatformMutationResolver,
       PlatformQueryResolver,
