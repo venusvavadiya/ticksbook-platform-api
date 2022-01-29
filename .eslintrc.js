@@ -24,6 +24,9 @@ module.exports = {
     '@typescript-eslint/lines-between-class-members': ['error', 'always', {
       'exceptAfterSingleLine': true,
     }],
+    '@typescript-eslint/no-unused-vars': ['error', {
+        'argsIgnorePattern': '^_',
+    }],
     'class-methods-use-this': ['error', { 'exceptMethods': [
       'getStreamNamePrefixes',
     ]}],

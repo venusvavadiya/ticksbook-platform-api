@@ -8,3 +8,4 @@ export * from './event-listener/order-event-listener';
 export * from './resolver/order-book-resolver';
 export * from './resolver/platform-mutation-resolver';
 export * from './resolver/platform-query-resolver';
+export * from './resolver/platform-subscription-resolver';
