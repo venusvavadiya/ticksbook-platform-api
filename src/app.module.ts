@@ -5,6 +5,7 @@ import {
   PlatformContext,
   PlatformMutationResolver,
   PlatformQueryResolver,
+  PlatformSubscriptionResolver,
 } from './platform-app';
 import { PlatformService } from './platform-domain';
 
@@ -38,6 +39,7 @@ export class AppModule {
       OrderBookResolver,
       PlatformMutationResolver,
       PlatformQueryResolver,
+      PlatformSubscriptionResolver,
     ];
   }
 }
